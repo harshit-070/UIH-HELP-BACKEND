@@ -1,5 +1,6 @@
 const Course = require("../model/courses");
 const User = require("../model/user");
+const Completion = require("../model/completion");
 const PDFDocument = require("pdfkit");
 const fs = require("fs");
 const path = require("path");
@@ -184,4 +185,28 @@ exports.pdf = (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+exports.completeCourse = async (req, res, next) => {
+  const completion = new Completion({
+    user_id: req.body._userID,
+    course_id: req.body.courseId,
+    certificate_id: req.body.certificateID,
+  });
+  await completion.save();
+  return res.status(200).json({ message: "Course Completed" });
+};
+
+exports.isCompleted = async (req, res, next) => {
+  const completion = await Completion.findOne({
+    user_id: req.params.userId,
+    course_id: req.params.courseId,
+  });
+  if (!completion) {
+    return res.status(400).json({ isCompleted: false });
+  } else {
+    return res
+      .status(200)
+      .json({ isCompleted: true, certificate_id: completion.certificate_id });
+  }
 };
