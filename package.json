@@ -1,7 +1,7 @@
 {
-  "name": "courserabackend",
+  "name": "uiahhelpbackend",
   "version": "1.0.0",
-  "description": "backend of coursera",
+  "description": "backend of UIAH Help",
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
